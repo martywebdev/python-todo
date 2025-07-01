@@ -3,57 +3,63 @@ while True:
     # strip the user_action
     user_action = user_action.strip()
 
-    match user_action:
-        case 'add':
-            todo = input('Enter a todo: ') + '\n'
 
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+    if 'add' in user_action  or 'new' in user_action:
+        todo = user_action[4:] + '\n'
+        with open('todos.txt', 'r') as file:
+            todos = file.readlines()
 
-            todos.append(todo)
+        todos.append(todo)
 
-            with open('todos.txt', 'w') as file:
-                file.writelines(todos)
-        case 'show':
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+        with open('todos.txt', 'w') as file:
+            file.writelines(todos)
+    elif 'show' in user_action:
+        with open('todos.txt', 'r') as file:
+            todos = file.readlines()
 
-            # new_todos = [item.strip('\n') for item in todos]
+        # new_todos = [item.strip('\n') for item in todos]
 
-            for index, item in enumerate(todos):
-                item = item.strip('\n')
-                print(f'{index + 1}. {item.title()}')
-        case 'edit':
-            number = int(input("Number of the todo to edit: ")) - 1
+        for index, item in enumerate(todos):
+            item = item.strip('\n')
+            print(f'{index + 1}. {item.title()}')
+    elif 'edit' in user_action:
 
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+        number = user_action[5:]
+        number = int(number) -1
+        with open('todos.txt', 'r') as file:
+            todos = file.readlines()
 
-            new_todo = input("Enter new todo: ")
-            todos[number] = new_todo + '\n'
+        new_todo = input("Enter new todo: ")
+        todos[number] = new_todo + '\n'
 
-            # print(todos)
+        # print(todos)
 
-            with open('todos.txt', 'w') as file:
-                file.writelines(todos)
-        case 'complete':
-            number = int(input("Number of the todo to complete: "))
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+        with open('todos.txt', 'w') as file:
+            file.writelines(todos)
+    elif 'complete' in user_action:
 
-            index = number - 1
-            todo_to_remove = todos[index].strip('\n')
-            todos.pop(index)
+        number = user_action[len('complete') + 1:]
 
-            with open('todos.txt', 'w') as file:
-                file.writelines(todos)
+        number = int(number) - 1
 
-            message = f"Todo {todo_to_remove} was removed from the list."
+        with open('todos.txt', 'r') as file:
+            todos = file.readlines()
 
-            print(message)
-        case 'exit':
-            break
-        case _:
-            print("Entered an unknown command")
+        index = number - 1
+        todo_to_remove = todos[index].strip('\n')
+        todos.pop(index)
+
+        with open('todos.txt', 'w') as file:
+            file.writelines(todos)
+
+        message = f"Todo {todo_to_remove} was removed from the list."
+
+        print(message)
+    elif 'exit' in user_action:
+        break
+    # elif _:
+    #     print("Entered an unknown command")
+    else:
+        print('Command is not valid')
 
 print("Bye")
