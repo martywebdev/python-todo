@@ -1,4 +1,5 @@
 def get_todos(file_path = 'todos.txt'):
+    """this is a doc strings"""
     with open(file_path, 'r') as file_local:
         todos_local = file_local.readlines()
     return todos_local
@@ -7,6 +8,11 @@ def write_todos(todos_list, file_path = 'todos.txt'):
     with open(file_path, 'w') as file_local:
         file_local.writelines(todos_list)
 
+text = """
+The Quick Brown Fox 
+Jumps Over The Lazy 
+Dog
+"""
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
@@ -70,4 +76,4 @@ while True:
     else:
         print('Command is not valid')
 
-print("Bye")
+print(text)
