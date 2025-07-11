@@ -18,27 +18,38 @@ window = sg.Window('My Todo App', layout, font=("Helvetica", 20))
 
 while True:
     event, values = window.read()
-    print(event)
-    print(values)
+    # print(event)
+    # print(values)
 
     match event:
         case 'Add':
             todos = functions.get_todos()
-            new_todo = values['todo'] + '\n'
-            todos.append(new_todo)
+            new_todo = values['todo'].strip()
+            if not new_todo:
+                sg.popup("Todo cannot be empty.", title="Input Error")
+                continue
+            todos.append(new_todo  + '\n')
             functions.write_todos(todos)
             window['todo'].update('')
             window['todos'].update(values=todos)
         case 'Edit':
             todo = values['todos'][0]
             # window['todo'].update(todo)
-            new_todo = values['todo']
+            new_todo = values['todo'].strip()
+            if not new_todo:
+                sg.popup("Todo cannot be empty.", title="Input Error")
+                continue
             todos = functions.get_todos()
             index = todos.index(todo)
-            todos[index] = new_todo
+            todos[index] = new_todo + '\n'
             functions.write_todos(todos)
             window['todo'].update('')
             window['todos'].update(values=todos)
+
+        case 'todos':
+            x = values['todos'][0].strip('\n')
+            window['todo'].update(x)
         case sg.WIN_CLOSED:
             break
+print('Bye')
 window.close()
