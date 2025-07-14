@@ -1,6 +1,8 @@
 import functions
 import FreeSimpleGUI as sg
+import time
 
+clock = sg.Text('')
 label  = sg.Text('Enter Todo')
 text_input =  sg.Input(key='todo')
 add_button = sg.Button('Add', bind_return_key=True)
@@ -36,30 +38,32 @@ while True:
             window['todo'].update('')
             window['todos'].update(values=todos)
         case 'Edit':
-            todo = values['todos'][0]
-            # window['todo'].update(todo)
-            new_todo = values['todo'].strip()
-            if not new_todo:
-                sg.popup("Todo cannot be empty.", title="Input Error")
-                continue
-            todos = functions.get_todos()
-            index = todos.index(todo)
-            todos[index] = new_todo + '\n'
-            functions.write_todos(todos)
-            window['todo'].update('')
-            window['todos'].update(values=todos)
-
+            try:
+                todo = values['todos'][0]
+                # window['todo'].update(todo)
+                new_todo = values['todo'].strip()
+                todos = functions.get_todos()
+                index = todos.index(todo)
+                todos[index] = new_todo + '\n'
+                functions.write_todos(todos)
+                window['todo'].update('')
+                window['todos'].update(values=todos)
+            except IndexError:
+                sg.popup("Select an item to edit.", title="Input Error", font=("Helvetica", 20))
         case 'todos':
             x = values['todos'][0].strip('\n') # this value will be rendered on input
             window['todo'].update(x)
 
         case 'Complete':
-            todo_to_complete = values['todos'][0] # this is the case todos value
-            todos = functions.get_todos()
-            todos.remove(todo_to_complete)
-            functions.write_todos(todos)
-            window['todo'].update('')
-            window['todos'].update(values=todos)
+            try:
+                todo_to_complete = values['todos'][0] # this is the case todos value
+                todos = functions.get_todos()
+                todos.remove(todo_to_complete)
+                functions.write_todos(todos)
+                window['todo'].update('')
+                window['todos'].update(values=todos)
+            except IndexError:
+                sg.popup("Todo cannot be empty.", title="Input Error", font=("Helvetica", 20))
         case 'Exit':
             break
         case sg.WIN_CLOSED:
