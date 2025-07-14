@@ -40,7 +40,7 @@ while True:
         case 'Edit':
             try:
                 todo = values['todos'][0]
-                # window['todo'].update(todo)
+                ''' window['todo'].update(todo)'''
                 new_todo = values['todo'].strip()
                 todos = functions.get_todos()
                 index = todos.index(todo)
