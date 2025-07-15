@@ -24,3 +24,8 @@ Thumbs.db
 *.txt
 *.zip
 !requirements.txt
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
